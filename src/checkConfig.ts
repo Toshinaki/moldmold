@@ -25,7 +25,7 @@ const init = async () => {
 const checkConfig = async () => {
   if (!fs.existsSync(CONFIG_FILE_NAME)) {
     const custom = await init();
-    let config = { ...DEFAULT_CONFIG, ...custom };
+    const config = { ...DEFAULT_CONFIG, ...custom };
 
     fs.writeFileSync(CONFIG_FILE_NAME, JSON.stringify(config, null, 2));
     fs.mkdirSync(config.mold_dir);

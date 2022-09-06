@@ -10,8 +10,7 @@ type BakeArgsType = {
 };
 
 export const bake = async (argv: BakeArgsType) => {
-  let { mold, verbose, ...args } = argv;
-  console.log('args: ', args);
+  let { mold } = argv;
   if (!mold) {
     const answerMold = await inquirer.prompt([
       {
@@ -34,7 +33,7 @@ export const bake = async (argv: BakeArgsType) => {
   const dest: string = answerDest.dest;
 
   const moldPath = path.join(MOLD_PATH, mold!);
-  let molds = walk(moldPath);
+  const molds = walk(moldPath);
   const keywords = getKeywords(molds);
 
   let pathReplaces = {};
@@ -76,15 +75,15 @@ export const bake = async (argv: BakeArgsType) => {
     );
   }
 
-  molds.forEach((mold) => {
-    let finalPath = path.join(dest, mold.replace(moldPath, ''));
+  molds.forEach((m) => {
+    let finalPath = path.join(dest, m.replace(moldPath, ''));
     Object.entries(pathReplaces).forEach(([keyword, replace]) => {
       finalPath = finalPath.replace(new RegExp(keyword), replace as string);
     });
-    if (fs.lstatSync(mold).isDirectory()) {
+    if (fs.lstatSync(m).isDirectory()) {
       fs.mkdirSync(finalPath, { recursive: true });
     } else {
-      let file = fs.readFileSync(mold).toString();
+      let file = fs.readFileSync(m).toString();
       Object.entries(fileReplaces).forEach(([keyword, replace]) => {
         // TODO use mustache.js
         file = file.replace(new RegExp(keyword), replace as string);

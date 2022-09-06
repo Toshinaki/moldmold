@@ -15,7 +15,7 @@ export const duplicationCheck = (name: string): boolean => {
 
 export const updateMolds = (name: string) => {
   const raw = fs.readFileSync(CONFIG_FILE_NAME);
-  let config: ConfigType = JSON.parse(raw.toString());
+  const config: ConfigType = JSON.parse(raw.toString());
 
   config.molds = [...(config.molds || []), { name, keywords: [] }];
 
@@ -24,7 +24,7 @@ export const updateMolds = (name: string) => {
 
 export const getMolds = () => {
   const raw = fs.readFileSync(CONFIG_FILE_NAME);
-  let config: ConfigType = JSON.parse(raw.toString());
+  const config: ConfigType = JSON.parse(raw.toString());
 
   return config.molds;
 };

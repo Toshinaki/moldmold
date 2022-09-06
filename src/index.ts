@@ -41,8 +41,8 @@ import { duplicationCheck } from './utils';
       .command(
         'mold [name]',
         'Create a new mold',
-        (yargs) => {
-          return yargs.positional('name', {
+        (y) => {
+          return y.positional('name', {
             type: 'string',
             describe: 'the name of the mold to be created',
           });
@@ -51,17 +51,14 @@ import { duplicationCheck } from './utils';
           if (argv.name && duplicationCheck(argv.name)) {
             throw new Error(`A mold with name "${argv.name}" already exists. Try with another name.`);
           }
-          if (argv.verbose) {
-            console.info(`create new mold :${argv.name}`);
-          }
-          addMoldMold(argv.name);
+          void addMoldMold(argv.name);
         },
       )
       .command(
         'bake [mold]',
         'Bake with given mold',
-        (yargs) =>
-          yargs.positional('mold', {
+        (y) =>
+          y.positional('mold', {
             type: 'string',
             describe: 'the name of the mold to bake with',
           }),

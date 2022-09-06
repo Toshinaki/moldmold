@@ -47,7 +47,7 @@ export const addMoldMold = async (name?: string) => {
   while (true) {
     if (molds.length > 0) {
       console.log('Current molds:');
-      molds.sort((a, b) => a.path.localeCompare(b.path)).forEach((mold) => console.log(`${mold.path} - ${mold.type}`));
+      molds.sort((a, b) => a.path.localeCompare(b.path)).forEach((m) => console.log(`${m.path} - ${m.type}`));
     }
     const mold = await addMold();
     molds.push({ type: mold.type, path: mold.path });
