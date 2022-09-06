@@ -1,11 +1,12 @@
 #!/usr/bin/env node
 
-import { clear } from 'console';
 import yargs, { Options } from 'yargs';
 import { hideBin } from 'yargs/helpers';
+import { bake } from './bake';
 
-import bake from './bake';
 import checkConfig from './checkConfig';
+import { addMoldMold } from './mold';
+import { duplicationCheck } from './utils';
 
 // clear();
 
@@ -47,10 +48,13 @@ import checkConfig from './checkConfig';
           });
         },
         (argv) => {
+          if (argv.name && duplicationCheck(argv.name)) {
+            throw new Error(`A mold with name "${argv.name}" already exists. Try with another name.`);
+          }
           if (argv.verbose) {
             console.info(`create new mold :${argv.name}`);
           }
-          console.log(argv.name);
+          addMoldMold(argv.name);
         },
       )
       .command(
@@ -65,7 +69,6 @@ import checkConfig from './checkConfig';
       )
       .options(OPTS)
       .help()
-      .alias(ALIASES)
-      .demandCommand(1, '').argv;
+      .alias(ALIASES).argv;
   }
 })();

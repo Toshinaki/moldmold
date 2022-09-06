@@ -9,7 +9,7 @@ const init = async () => {
   );
   return await inquirer.prompt([
     {
-      name: 'name',
+      name: 'author',
       type: 'input',
       message: 'Your name, as author of your custom molds: ',
     },
