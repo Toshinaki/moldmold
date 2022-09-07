@@ -4,7 +4,7 @@ import { ConfigType } from './types';
 
 export const duplicationCheck = (name: string): boolean => {
   const raw = fs.readFileSync(CONFIG_FILE_NAME);
-  const config: ConfigType = JSON.parse(raw.toString());
+  const config = JSON.parse(raw.toString()) as ConfigType;
 
   if (!config.molds || config.molds.length === 0) {
     return true;
@@ -15,7 +15,7 @@ export const duplicationCheck = (name: string): boolean => {
 
 export const updateMolds = (name: string) => {
   const raw = fs.readFileSync(CONFIG_FILE_NAME);
-  const config: ConfigType = JSON.parse(raw.toString());
+  const config = JSON.parse(raw.toString()) as ConfigType;
 
   config.molds = [...(config.molds || []), { name, keywords: [] }];
 
@@ -24,7 +24,7 @@ export const updateMolds = (name: string) => {
 
 export const getMolds = () => {
   const raw = fs.readFileSync(CONFIG_FILE_NAME);
-  const config: ConfigType = JSON.parse(raw.toString());
+  const config = JSON.parse(raw.toString()) as ConfigType;
 
   return config.molds;
 };

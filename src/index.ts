@@ -10,7 +10,7 @@ import { duplicationCheck } from './utils';
 
 // clear();
 
-(async () => {
+void (async () => {
   if (await checkConfig()) {
     const OPTS: Record<string, Options> = {
       l: {
@@ -34,7 +34,7 @@ import { duplicationCheck } from './utils';
       h: 'help',
     };
 
-    yargs(hideBin(process.argv))
+    void yargs(hideBin(process.argv))
       .scriptName('mold')
       .usage('Usage: $0 <cmd> [args]')
       .strictCommands()
@@ -66,6 +66,7 @@ import { duplicationCheck } from './utils';
       )
       .options(OPTS)
       .help()
-      .alias(ALIASES).argv;
+      .alias(ALIASES)
+      .parse();
   }
 })();

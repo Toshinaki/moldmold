@@ -1,13 +1,12 @@
 import fs from 'fs';
 import path from 'path';
 import inquirer from 'inquirer';
-import cliProgress from 'cli-progress';
 import { MoldType } from './types';
 import { MOLD_PATH } from './constants';
 import { updateMolds } from './utils';
 
 const addMold = async () =>
-  inquirer.prompt([
+  inquirer.prompt<{ type: 'file' | 'folder'; path: string; repeat: boolean }>([
     {
       name: 'type',
       type: 'list',
@@ -29,7 +28,7 @@ const addMold = async () =>
   ]);
 
 export const getMoldMoldName = async (): Promise<string> => {
-  const answers = await inquirer.prompt([
+  const answers = await inquirer.prompt<{ name: string }>([
     { name: 'name', type: 'input', message: 'What do you want to call this moldmold?' },
   ]);
   return answers.name;
@@ -61,10 +60,6 @@ export const addMoldMold = async (name?: string) => {
 
   console.log('Creating molds...');
 
-  const progress = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);
-
-  progress.start(molds.length, 0);
-
   molds.forEach((mold) => {
     const p = path.join(moldPath, mold.path);
     if (mold.type === 'file') {
@@ -73,11 +68,7 @@ export const addMoldMold = async (name?: string) => {
     } else {
       fs.mkdirSync(p, { recursive: true });
     }
-
-    progress.increment();
   });
-
-  progress.stop();
 
   console.log(`Done adding ${molds.length} mold(s)!`);
 
