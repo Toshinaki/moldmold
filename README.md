@@ -6,3 +6,29 @@
 ![npm bundle size](https://img.shields.io/bundlephobia/min/moldmold)
 
 Mold for (almost) everything, even for a mold!
+
+## Get start
+
+### Installation
+
+Install with `npm`:
+
+`npm install moldmold -D`
+
+or with `yarn`:
+
+`yarn add moldmld -D`
+
+### Add a custom mold
+
+`npx moldmold mold`
+
+### Bake a mold
+
+`npx moldmold bake`
+
+## Todos
+
+- [ ] yargs -> commander
+- [ ] document
+- [ ] function as keyword
