@@ -31,7 +31,6 @@
   "devDependencies": {
     "@types/inquirer": "^9.0.1",
     "@types/node": "^18.7.13",
-    "@types/yargs": "^17.0.11",
     "@typescript-eslint/eslint-plugin": "^5.36.2",
     "@typescript-eslint/parser": "^5.36.2",
     "eslint": "^8.23.0",
@@ -48,8 +47,7 @@
   "dependencies": {
     "commander": "^9.4.0",
     "inquirer": "^8.2.4",
-    "path": "^0.12.7",
-    "yargs": "^17.5.1"
+    "path": "^0.12.7"
   },
   "files": [
     "lib/**/*"

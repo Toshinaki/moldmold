@@ -4,13 +4,13 @@ import path from 'path';
 import { MOLD_PATH } from './constants';
 import { getMolds } from './utils';
 
-type BakeArgsType = {
-  mold?: string;
-  verbose?: boolean;
-};
+// type BakeArgsType = {
+//   mold?: string;
+//   verbose?: boolean;
+// };
 
-export const bake = async (argv: BakeArgsType) => {
-  let { mold } = argv;
+const bake = async (mold?: string) => {
+  // let { mold } = argv;
   if (!mold) {
     const answerMold = await inquirer.prompt<{ mold: string }>([
       {
@@ -92,6 +92,8 @@ export const bake = async (argv: BakeArgsType) => {
     }
   });
 };
+
+export default bake;
 
 const walk = (dirPath: string): Array<string> => {
   return fs.readdirSync(dirPath).flatMap((f) => {

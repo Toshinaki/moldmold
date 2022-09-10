@@ -1,72 +1,43 @@
 #!/usr/bin/env node
 
-import yargs, { Options } from 'yargs';
-import { hideBin } from 'yargs/helpers';
-import { bake } from './bake';
+// import yargs, { Options } from 'yargs';
+// import { hideBin } from 'yargs/helpers';
+// import { bake } from './bake';
+// import { addMoldMold } from './mold';
 
+import { Command } from 'commander';
+import { clear } from 'console';
+
+import mold from './mold';
+import bake from './bake';
 import checkConfig from './checkConfig';
-import { addMoldMold } from './mold';
-import { duplicationCheck } from './utils';
+// import { duplicationCheck } from './utils';
 
-// clear();
+clear();
 
 void (async () => {
   if (await checkConfig()) {
-    const OPTS: Record<string, Options> = {
-      l: {
-        alias: 'list',
-        type: 'boolean',
-        describe: 'Show available local molds',
-      },
-      L: {
-        alias: 'list-remote',
-        type: 'boolean',
-        describe: 'Show available remote molds',
-      },
-      v: {
-        alias: 'verbose',
-        type: 'boolean',
-        description: 'Run in verbose mode',
-      },
-    };
-    const ALIASES = {
-      V: 'version',
-      h: 'help',
-    };
+    const program = new Command();
 
-    void yargs(hideBin(process.argv))
-      .scriptName('mold')
-      .usage('Usage: $0 <cmd> [args]')
-      .strictCommands()
-      .command(
-        'mold [name]',
-        'Create a new mold',
-        (y) => {
-          return y.positional('name', {
-            type: 'string',
-            describe: 'the name of the mold to be created',
-          });
-        },
-        (argv) => {
-          if (argv.name && duplicationCheck(argv.name)) {
-            throw new Error(`A mold with name "${argv.name}" already exists. Try with another name.`);
-          }
-          void addMoldMold(argv.name);
-        },
-      )
-      .command(
-        'bake [mold]',
-        'Bake with given mold',
-        (y) =>
-          y.positional('mold', {
-            type: 'string',
-            describe: 'the name of the mold to bake with',
-          }),
-        (argv) => bake(argv),
-      )
-      .options(OPTS)
-      .help()
-      .alias(ALIASES)
-      .parse();
+    program.name('moldmold').version(require('../package.json').version).description('Create molds or bake from one');
+
+    program
+      .command('mold')
+      .description('Create a new mold')
+      .argument('[name]', "the mold's name")
+      // .option('-s, --source', 'create mold from an existing one')
+      // .option('-m, --modify', 'modify an existing mold')
+      .action(mold);
+
+    program
+      .command('bake')
+      .description('Bake with the given mold')
+      .argument('[mold]', 'name of the mold to bake with')
+      // .option('-f, --file', 'path to the file that contains key-value pairs as replacements')
+      // .option('-r, --replaces', '"key=value" pairs separated by ",", as the replacements')
+      // .option('-g, --generate', 'generate a json file that contains all keys to be replaced')
+      .action(bake);
+
+    program.parse();
   }
 })();
